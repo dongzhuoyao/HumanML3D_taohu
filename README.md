@@ -1,3 +1,13 @@
+When you preprared the amass_data directory, run the following bash to unzip
+
+```
+for file in *; do
+    tar -xvf "$file"
+done
+```
+
+
+
 # <b>HumanML3D: 3D Human Motion-Language Dataset</b>
 <!-- ![tesear_image](./HumanML3D/dataset_showcase.png) -->
 
