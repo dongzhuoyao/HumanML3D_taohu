@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 
 
 
@@ -7,7 +5,7 @@ conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c 
 pip install numpy scipy tqdm pandas
 
 
-=======
+
 When you preprared the amass_data directory, run the following bash to unzip
 
 ```
@@ -16,9 +14,12 @@ for file in *; do
 done
 ```
 
+```
+mv *.tar.bz2 ../amass_data_tarfiles
+```
 
 
->>>>>>> 35a3b5198f11a07f8c5c95bb3ba0b8d181ab7489
+
 # <b>HumanML3D: 3D Human Motion-Language Dataset</b>
 <!-- ![tesear_image](./HumanML3D/dataset_showcase.png) -->
 
