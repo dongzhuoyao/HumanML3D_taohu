@@ -1,3 +1,11 @@
+
+
+
+
+conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c nvidia
+pip install numpy scipy tqdm pandas
+
+
 # <b>HumanML3D: 3D Human Motion-Language Dataset</b>
 <!-- ![tesear_image](./HumanML3D/dataset_showcase.png) -->
 
