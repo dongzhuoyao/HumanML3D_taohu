@@ -2,3 +2,4 @@
 __pycache__
 human_body_prior/body_model/__pycache__/lbs.cpython-37.pyc
 amass_data
+pose_data
