@@ -106,8 +106,8 @@ assert len(paths) > 0
 print("paths length: ", len(paths))
 
 # %%
-save_root = './pose_data'
-save_folders = [folder.replace('./amass_data', './pose_data') for folder in folders]
+save_root = './pose_data_v2'
+save_folders = [folder.replace('./amass_data', save_root) for folder in folders]
 for folder in save_folders:
     os.makedirs(folder, exist_ok=True)
 group_path = [[path for path in paths if name in path] for name in dataset_names]
@@ -137,16 +137,30 @@ def amass_to_pose(src_path, save_path):
 #     print(frame_number)
 #     print(fps)
     
-    with torch.no_grad():
-        for fId in range(0, frame_number, down_sample):
-            root_orient = torch.Tensor(bdata['poses'][fId:fId+1, :3]).to(comp_device) # controls the global root orientation
-            pose_body = torch.Tensor(bdata['poses'][fId:fId+1, 3:66]).to(comp_device) # controls the body
-            pose_hand = torch.Tensor(bdata['poses'][fId:fId+1, 66:]).to(comp_device) # controls the finger articulation
-            betas = torch.Tensor(bdata['betas'][:10][np.newaxis]).to(comp_device) # controls the body shape
-            trans = torch.Tensor(bdata['trans'][fId:fId+1]).to(comp_device)    
+    if False:
+        raise NotImplementedError
+        #check https://github.com/EricGuo5513/HumanML3D/issues/41
+        with torch.no_grad():
+            for fId in range(0, frame_number, down_sample):
+                root_orient = torch.Tensor(bdata['poses'][fId:fId+1, :3]).to(comp_device) # controls the global root orientation
+                pose_body = torch.Tensor(bdata['poses'][fId:fId+1, 3:66]).to(comp_device) # controls the body
+                pose_hand = torch.Tensor(bdata['poses'][fId:fId+1, 66:]).to(comp_device) # controls the finger articulation
+                betas = torch.Tensor(bdata['betas'][:10][np.newaxis]).to(comp_device) # controls the body shape
+                trans = torch.Tensor(bdata['trans'][fId:fId+1]).to(comp_device)    
+                body = bm(pose_body=pose_body, pose_hand=pose_hand, betas=betas, root_orient=root_orient)
+                joint_loc = body.Jtr[0] + trans
+                pose_seq.append(joint_loc.unsqueeze(0))
+    else:
+        with torch.no_grad():
+            root_orient = torch.Tensor(bdata['poses'][::down_sample, :3]).to(comp_device) # controls the global root orientation
+            pose_body = torch.Tensor(bdata['poses'][::down_sample, 3:66]).to(comp_device) # controls the body
+            pose_hand = torch.Tensor(bdata['poses'][::down_sample, 66:]).to(comp_device) # controls the finger articulation
+            betas = torch.Tensor(bdata['betas'][:10][np.newaxis]).repeat((pose_hand.shape[0], 1)).to(comp_device) # controls the body shape
+            trans = torch.Tensor(bdata['trans'][::down_sample]).to(comp_device)    
             body = bm(pose_body=pose_body, pose_hand=pose_hand, betas=betas, root_orient=root_orient)
-            joint_loc = body.Jtr[0] + trans
-            pose_seq.append(joint_loc.unsqueeze(0))
+            joint_loc = body.Jtr[:,:22] + trans[:, None]
+            pose_seq.append(joint_loc)
+
     pose_seq = torch.cat(pose_seq, dim=0)
     
     pose_seq_np = pose_seq.detach().cpu().numpy()
@@ -173,7 +187,7 @@ for paths in group_path:
     pbar.set_description('Processing: %s'%dataset_name)
     fps = 0
     for path in pbar:
-        save_path = path.replace('./amass_data', './pose_data')
+        save_path = path.replace('./amass_data', save_root)
         save_path = save_path[:-3] + 'npy'
         fps = amass_to_pose(path, save_path)
         

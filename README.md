@@ -1,5 +1,8 @@
 
 
+[why slow for raw_pose_processing?](https://github.com/EricGuo5513/HumanML3D/issues/41)
+
+
 ```
 conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c nvidia
 pip install numpy scipy tqdm pandas
