@@ -60,9 +60,11 @@ if __name__ == '__main__':
 
 # %%
 abs(mean-reference1).sum()
+print('abs(mean-reference1).sum()',abs(mean-reference1).sum())
 
 # %%
 abs(std-reference2).sum()
+print('abs(std-reference2).sum()',abs(std-reference2).sum())
 
 # %%
 

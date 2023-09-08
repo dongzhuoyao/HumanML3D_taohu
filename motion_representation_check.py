@@ -357,10 +357,11 @@ reference1_1 = np.load('./HumanML3D/new_joints/012314.npy')
 reference2_1 = np.load('./HumanML3D/new_joint_vecs/012314.npy')
 
 # %%
-abs(reference1 - reference1_1).sum()
+
+print('abs(reference1 - reference1_1).sum()', abs(reference1 - reference1_1).sum())
 
 # %%
-abs(reference2 - reference2_1).sum()
+print('abs(reference2 - reference2_1).sum()',abs(reference2 - reference2_1).sum())
 
 # %%
 
