@@ -4,7 +4,10 @@
 
 ```
 rm -rf ./amass_data/BMLhandball/LICENSE.txt
+run raw_pose_process.py
+it will terminate, so we prepare humanact12 dataset and put it into folder ./pose_data. then we run raw_pose_process_step2.py
 ```
+
 
 ```
 conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch-lts -c nvidia
