@@ -51,6 +51,7 @@ save_dir = './joints'
 index_file = pd.read_csv(index_path)
 total_amount = index_file.shape[0]
 fps = 20
+os.makedirs(save_dir, exist_ok=True)
 
 # %%
 for i in tqdm(range(total_amount)):
