@@ -314,7 +314,7 @@ if __name__ == "__main__":
     data_dir = './joints/'
     save_dir1 = './HumanML3D/new_joints/'
     save_dir2 = './HumanML3D/new_joint_vecs/'
-    
+    print('save_dir1', save_dir1)
     os.makedirs(save_dir1, exist_ok=True)
     os.makedirs(save_dir2, exist_ok=True)
 
@@ -332,7 +332,7 @@ if __name__ == "__main__":
 
     source_list = os.listdir(data_dir)
     frame_num = 0
-    for source_file in tqdm(source_list):
+    for source_file in tqdm(source_list, 'Processing'):
         source_data = np.load(os.path.join(data_dir, source_file))[:, :joints_num]
         try:
             data, ground_positions, positions, l_velocity = process_file(source_data, 0.002)
